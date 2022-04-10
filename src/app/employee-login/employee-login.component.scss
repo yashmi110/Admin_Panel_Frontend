@@ -1,0 +1,18 @@
+.center-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -250px;
+    margin-left: -250px;
+    width: 500px;
+    height: 500px;
+    background:lightgrey;
+  }
+
+  .card-size {
+    position:absolute ;
+    top: 50%;
+    left: 50%;  
+      max-width: 500px;
+      max-height: 500px;
+  }
