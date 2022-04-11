@@ -1,18 +1,16 @@
-.center-screen {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -250px;
-    margin-left: -250px;
-    width: 500px;
-    height: 500px;
-    background:lightgrey;
-  }
+  
+.example-card {
+  max-width: 400px;
+}
 
-  .card-size {
-    position:absolute ;
-    top: 50%;
-    left: 50%;  
-      max-width: 500px;
-      max-height: 500px;
-  }
+.example-header-image {
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfV72jN_mCWtvAqBcmTtmXbVu00GVbAyLFYA&usqp=CAU');
+  background-size: cover;
+}
+.card-content{
+  text-align: -webkit-center;
+  padding-top: 150px
+}
+.example-full-width {
+  width: 100%;
+}
