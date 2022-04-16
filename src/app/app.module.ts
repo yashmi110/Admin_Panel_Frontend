@@ -10,8 +10,12 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {  MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTabsModule} from '@angular/material/tabs';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import {MatIconModule} from '@angular/material/icon';
+
+import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
+
 
 
 
@@ -30,7 +34,10 @@ import {MatIconModule} from '@angular/material/icon';
     MatButtonModule,
     MatTabsModule,
     FormsModule,
-    MatIconModule
+    MatIconModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
