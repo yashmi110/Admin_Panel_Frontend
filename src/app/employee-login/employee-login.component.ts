@@ -1,7 +1,10 @@
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { EmployeeLoginService } from './employee-login.service';
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import Validation from './Validation';
+
 
 
 @Component({
@@ -10,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./employee-login.component.scss'],
   providers: [EmployeeLoginComponent]
 })
-export class EmployeeLoginComponent implements OnInit{
+export class EmployeeLoginComponent implements OnInit {
 
   formLogin!: FormGroup;
   login!: Login;
@@ -22,51 +25,62 @@ export class EmployeeLoginComponent implements OnInit{
   password = new FormControl('', [Validators.required]);
   username = new FormControl('', [Validators.required]);
   confirmpassword = new FormControl('', [Validators.required])
- // username: any;
+  // username: any;
+
+
 
   getErrorMessage() {
-    if (this.email.hasError('required')||this.password.hasError('required')||this.confirmpassword.hasError('required')) {
+    if (this.email.hasError('required') || this.password.hasError('required') || this.confirmpassword.hasError('required')) {
       return 'You must enter a value';
     }
 
     return this.email.hasError('email') ? 'Not a valid email' : '';
   }
-  
-  constructor(private formBuilder: FormBuilder, private employeeloginservice : EmployeeLoginService, private toastr: ToastrService) { 
-   
+
+  constructor(private formBuilder: FormBuilder, private employeeloginservice: EmployeeLoginService, private toastr: ToastrService) {
+
   }
 
   ngOnInit(): void {
-   this.login = new Login();
-   this.createLoginForm();
+    this.login = new Login();
+    this.createLoginForm();
 
-   this.register = new Register();
-  this.createRegisterForm();
+    this.register = new Register();
+    this.createRegisterForm();
 
   }
 
+  get f(): { [key: string]: AbstractControl } {
+    return this.formRegister.controls;
+  }
 
-  createLoginForm(){
-    const model={
-      username : new FormControl(this.login.username, [Validators.required]),
-      password : new FormControl(this.login.password, [Validators.required])
+  createLoginForm() {
+    const model = {
+      username: new FormControl(this.login.username, [Validators.required]),
+
+      password: new FormControl(this.login.password, [Validators.required])
     };
-    this.formLogin=this.formBuilder.group(model);
+    this.formLogin = this.formBuilder.group(model);
   }
 
-  createRegisterForm(){
-    const model={
-      username : new FormControl(this.register.username,  [Validators.required]),
-      email:new FormControl(this.register.email, [Validators.required]),
-      password : new FormControl(this.register.password, [Validators.required]),
+  createRegisterForm() {
+
+
+    this.formRegister = this.formBuilder.group({
+      username: new FormControl(this.register.username, [Validators.required]),
+      email: new FormControl(this.register.email, [Validators.required]),
+      password: new FormControl(this.register.password, [Validators.required]),
       confirmpassword: new FormControl(this.register.confirmpassword, [Validators.required])
-    };
-    this.formRegister=this.formBuilder.group(model);
+    },
+    {
+      validators: [Validation.match('password', 'confirmpassword')]
+    }
+    );
   }
 
   loginBtnTap() {
-  
-    if(this.formLogin.valid){
+
+    if (this.formLogin.valid) {
       const value = this.formLogin.value;
 
       // this.employeeloginservice.loginEmployee(value).subscribe((data: LoginEmployee) => {
@@ -80,25 +94,25 @@ export class EmployeeLoginComponent implements OnInit{
           this.toastr.success('Logging successfull', 'Success');
         },
         error => {
-          
+
           this.toastr.error('Invalid User Creditatioal', 'fail');
         }
       );
 
-      
+
     }
   }
 
 
-  registerBtnTap(){
+  registerBtnTap() {
     this.username.markAsTouched()
     this.email.markAsTouched()
     this.password.markAsTouched()
     this.confirmpassword.markAsTouched()
 
-    if (this.formRegister.valid){
-      const value = this.formRegister.value;
 
+    if (this.formRegister.valid) {
+      const value = this.formRegister.value;
       this.employeeloginservice.registerEmployee(value).subscribe(
         success=>{
           this.toastr.success('Registration successfull', 'Success');
@@ -106,28 +120,38 @@ export class EmployeeLoginComponent implements OnInit{
         error=>{
           this.toastr.error('Please reEnter', 'fail');
         }
-        
-        
+
+
       );
 
+    } else {
+      this.toastr.error('Please fill thhe form', 'fail');
     }
   }
 
 }
 
-export class Login{
-   username:string = "";
-   password: string = "";
+
+export const passwordMatchingValidatior: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const password = control.get('password');
+  const confirmPassword = control.get('confirmPassword');
+
+  return password?.value === confirmPassword?.value ? null : { notmatched: true };
+};
+
+export class Login {
+  username: string = "";
+  password: string = "";
 
 }
 
-export class LoginEmployee{
-  token:string = '';
+export class LoginEmployee {
+  token: string = '';
 }
 
-export class Register{
-  username:string = "";
-  email:string = "";
-   password: string = "";
-   confirmpassword: string = "";
+export class Register {
+  username: string = "";
+  email: string = "";
+  password: string = "";
+  confirmpassword: string = "";
 }
