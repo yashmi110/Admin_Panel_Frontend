@@ -16,57 +16,58 @@
             <mat-form-field class="example-full-width">
               <mat-label>UserName</mat-label>
               <input type="text" matInput formControlName="username" required name="log_username">
-              <!-- <mat-error *ngIf="userNameLogin.invalid">{{getErrorMessage()}}</mat-error> -->
+              <mat-error *ngIf="f['username'].errors?.['required']">User Name is required</mat-error>
               <mat-icon matSuffix>account_circle</mat-icon>
             </mat-form-field>
             <mat-form-field class="example-full-width">
               <mat-label>Password</mat-label>
               <input type="password" matInput formControlName="password" required>
-              <!-- <mat-error *ngIf="passwordLogin.invalid">{{getErrorMessage()}}</mat-error> -->
+              <mat-error *ngIf="f['password'].errors?.['required']">Password is required</mat-error>
               <mat-icon matSuffix>lock</mat-icon>
             </mat-form-field>
-            <button mat-raised-button color="primary" style="width: 100%;" (click)="loginBtnTap()">LOGIN</button>
+            <button mat-raised-button color="primary" style="width: 100%;" routerLink="/userdetails" (click)="loginBtnTap()">LOGIN</button>
           </mat-tab>
         </form>
-      
-      <form [formGroup]="formRegister">
-        <mat-tab label="Register">
-          <br>
-          <mat-form-field class="example-full-width">
-            <mat-label>UserName</mat-label>
-            <input type="text" matInput formControlName="username" required>
-            <!-- <mat-error *ngIf="userName.invalid">{{getErrorMessage()}}</mat-error> -->
-            <mat-icon matSuffix>account_circle</mat-icon>
-          </mat-form-field>
 
-          <mat-form-field class="example-full-width">
-            <mat-label>Email</mat-label>
-            <input type="email" matInput formControlName="email" required>
-            <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
-            <mat-icon matSuffix>email</mat-icon>
-          </mat-form-field>
+        <form [formGroup]="formRegister">
+          <mat-tab label="Register">
+            <br>
+            <mat-form-field class="example-full-width">
+              <mat-label>UserName</mat-label>
+              <input type="text" matInput formControlName="username" required>
+              <mat-error *ngIf="f['username'].errors?.['required']">User Name is required</mat-error>
+              <mat-icon matSuffix>account_circle</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <mat-label>Email</mat-label>
+              <input type="email" matInput formControlName="email" required>
+              <mat-error *ngIf="f['email'].errors?.['required']">E-mail is required</mat-error>
+              <mat-error *ngIf="f['email'].errors?.['email']">E-mail is not valid</mat-error>
+              <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
 
 
-          <mat-form-field class="example-full-width">
-            <mat-label>Password</mat-label>
-            <input type="password" matInput formControlName="password" required>
-            <!-- <mat-error *ngIf="password.invalid">{{getErrorMessage()}}</mat-error> -->
-            <mat-icon matSuffix>lock</mat-icon>
-          </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>Password</mat-label>
+              <input type="password" matInput formControlName="password" required>
+              <mat-error *ngIf="f['password'].errors?.['required']">pw is required</mat-error>
+              <mat-icon matSuffix>lock</mat-icon>
+            </mat-form-field>
 
-          <mat-form-field class="example-full-width">
-            <mat-label>Confirm Password</mat-label>
-            <input type="password" matInput formControlName="confirmpassword" required>
-           
-            <mat-error *ngIf="f['confirmpassword'].errors?.['matching']" >Passsword and Confirm Password didn't match.</mat-error>
+            <mat-form-field class="example-full-width">
+              <mat-label>Confirm Password</mat-label>
+              <input type="password" matInput formControlName="confirmpassword" required>
+              <mat-error *ngIf="f['password'].errors?.['required']">Confirm Password is required</mat-error>
+              <mat-error *ngIf="f['confirmpassword'].errors?.['matching']">Passsword and Confirm Password didn't match.
+              </mat-error>
+              <mat-icon matSuffix>lock_open</mat-icon>
+            </mat-form-field>
 
-            <mat-icon matSuffix>lock_open</mat-icon>
-          </mat-form-field>
+            <button mat-raised-button color="primary" style="width: 100%;" (click)="registerBtnTap()">REGISTER</button>
+          </mat-tab>
 
-          <button mat-raised-button color="primary" style="width: 100%;" (click)="registerBtnTap()">REGISTER</button>
-        </mat-tab>
-
-      </form>
+        </form>
 
       </mat-tab-group>
 

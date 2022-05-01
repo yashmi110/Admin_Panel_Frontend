@@ -55,12 +55,12 @@ export class EmployeeLoginComponent implements OnInit {
   }
 
   createLoginForm() {
-    const model = {
-      username: new FormControl(this.login.username, [Validators.required]),
-
-      password: new FormControl(this.login.password, [Validators.required])
-    };
-    this.formLogin = this.formBuilder.group(model);
+   
+      this.formLogin = this.formBuilder.group({
+        username: new FormControl(this.login.username, [Validators.required]),
+        password: new FormControl(this.login.password, [Validators.required])
+      });
+    
   }
 
   createRegisterForm() {
@@ -68,7 +68,7 @@ export class EmployeeLoginComponent implements OnInit {
 
     this.formRegister = this.formBuilder.group({
       username: new FormControl(this.register.username, [Validators.required]),
-      email: new FormControl(this.register.email, [Validators.required]),
+      email: new FormControl(this.register.email, [Validators.required,Validators.email]),
       password: new FormControl(this.register.password, [Validators.required]),
       confirmpassword: new FormControl(this.register.confirmpassword, [Validators.required])
     },
@@ -91,7 +91,10 @@ export class EmployeeLoginComponent implements OnInit {
       this.employeeloginservice.loginEmployee(value).subscribe(
         (data: LoginEmployee) => {
           console.log(data.token)
+          localStorage.setItem('token', data.token);
+        
           this.toastr.success('Logging successfull', 'Success');
+         
         },
         error => {
 
@@ -100,6 +103,9 @@ export class EmployeeLoginComponent implements OnInit {
       );
 
 
+    }
+    else{
+      this.toastr.error('Please fill the form', 'fail');
     }
   }
 
@@ -113,19 +119,19 @@ export class EmployeeLoginComponent implements OnInit {
 
     if (this.formRegister.valid) {
       const value = this.formRegister.value;
+     // this.toastr.success('Logging successfull', 'Success');
       this.employeeloginservice.registerEmployee(value).subscribe(
         success=>{
           this.toastr.success('Registration successfull', 'Success');
         },
         error=>{
-          this.toastr.error('Please reEnter', 'fail');
+          this.toastr.error('Please reenter', 'fail');
         }
-
 
       );
 
     } else {
-      this.toastr.error('Please fill thhe form', 'fail');
+      this.toastr.error('Please fill the form', 'fail');
     }
   }
 

@@ -1,3 +1,4 @@
+import { UserDetailService } from './user-detail/user-detail.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -12,9 +13,12 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatTabsModule} from '@angular/material/tabs';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import {MatIconModule} from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table'  ;
+
 
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
+import { UserDetailComponent } from './user-detail/user-detail.component';
 
 
 
@@ -22,7 +26,8 @@ import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [
     AppComponent,
-    EmployeeLoginComponent
+    EmployeeLoginComponent,
+    UserDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -37,9 +42,10 @@ import { ToastrModule } from 'ngx-toastr';
     MatIconModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatTableModule,
     ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [UserDetailService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
