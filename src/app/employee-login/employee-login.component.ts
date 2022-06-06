@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import Validation from './Validation';
+import { UserDetails } from '../user-detail/user-detail.component';
+import { UserDetailService } from '../user-detail/user-detail.service';
 
 
 
@@ -37,9 +39,11 @@ export class EmployeeLoginComponent implements OnInit {
     return this.email.hasError('email') ? 'Not a valid email' : '';
   }
 
-  constructor(private formBuilder: FormBuilder, private employeeloginservice: EmployeeLoginService, private toastr: ToastrService) {
+  constructor(private formBuilder: FormBuilder, private employeeloginservice: EmployeeLoginService, private toastr: ToastrService, private userdetailservice: UserDetailService) {
 
   }
+
+  dataSource:  UserDetails[] = []
 
   ngOnInit(): void {
     this.login = new Login();
@@ -47,8 +51,21 @@ export class EmployeeLoginComponent implements OnInit {
 
     this.register = new Register();
     this.createRegisterForm();
+    this.loadData();
 
   }
+  loadData() {
+    this.userdetailservice.getAllUsers().subscribe(  (data: [UserDetails]) => {
+   
+      this.dataSource = data
+     },
+      (   error: any) => {
+  
+      console.log(error)
+     })
+  }
+   // throw new Error('Method not implemented.');
+  
 
   get f(): { [key: string]: AbstractControl } {
     return this.formRegister.controls;
@@ -92,7 +109,7 @@ export class EmployeeLoginComponent implements OnInit {
         (data: LoginEmployee) => {
           console.log(data.token)
           localStorage.setItem('token', data.token);
-        
+          this.loadData();
           this.toastr.success('Logging successfull', 'Success');
          
         },
@@ -122,6 +139,7 @@ export class EmployeeLoginComponent implements OnInit {
      // this.toastr.success('Logging successfull', 'Success');
       this.employeeloginservice.registerEmployee(value).subscribe(
         success=>{
+          this.loadData();
           this.toastr.success('Registration successfull', 'Success');
         },
         error=>{
@@ -136,6 +154,7 @@ export class EmployeeLoginComponent implements OnInit {
   }
 
 }
+
 
 
 export const passwordMatchingValidatior: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {

@@ -18,7 +18,9 @@ export class UserDetailService {
     httpOptions = {
         headers: new HttpHeaders({
            
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            "Content-Type": "application/json"
+
         }),
     };
 
@@ -27,12 +29,32 @@ export class UserDetailService {
     //get all users 
     getAllUsers(): Observable<[UserDetails]> {
         return this.httpClient.get<[UserDetails]>(
-            this.apiURL + '/api/v1/getAllUsers',
+            this.apiURL + '/api/v1/user/getAll',
             this.httpOptions
         )
             .pipe(retry(1), catchError(this.handleError));
     }
 
+    
+    updateEmail(email : String, name: String): Observable<any> {
+        return this.httpClient.put(
+            this.apiURL + '/api/v1/user/update/email',
+            JSON.stringify({
+                "userName": name,
+                "newEmail": email
+            }),
+            this.httpOptions
+          )
+            .pipe(retry(1), catchError(this.handleError));
+    }
+
+    deleteUser(name:String): Observable<any> {
+        return this.httpClient.delete(
+            this.apiURL + '/api/v1/user/user/' + name,
+            this.httpOptions
+            )
+            .pipe(retry(1), catchError(this.handleError));
+    }
 
     // Error handling
     handleError(error: any) {

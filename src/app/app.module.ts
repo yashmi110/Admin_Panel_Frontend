@@ -14,11 +14,14 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import {MatIconModule} from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table'  ;
+import {MatDialogModule} from '@angular/material/dialog';
+//import {MatFormFieldModule} from '@angular/material/form-field';
 
 
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { UserDetailComponent } from './user-detail/user-detail.component';
+import { EmailEditComponent } from './email-edit/email-edit.component';
 
 
 
@@ -27,7 +30,8 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
   declarations: [
     AppComponent,
     EmployeeLoginComponent,
-    UserDetailComponent
+    UserDetailComponent,
+    EmailEditComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +47,7 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
     ReactiveFormsModule,
     HttpClientModule,
     MatTableModule,
+    MatDialogModule,
     ToastrModule.forRoot()
   ],
   providers: [UserDetailService],

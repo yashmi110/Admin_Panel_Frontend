@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Edit Email</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+      <input matInput [(ngModel)]="data.email"> 
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button  (click)="onNoClick()"  color="warn">Cancel</button>
+  <button mat-button color="primary" (click)="onSubmit()">Submit</button>
+  
+  <!-- <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button> -->
+</div>
